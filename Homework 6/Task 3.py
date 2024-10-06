@@ -23,8 +23,3 @@ class Money:
 
 a = Money(10, 50)
 a.print_result()
-
-
-
-
-
