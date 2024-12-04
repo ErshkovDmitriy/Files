@@ -1,5 +1,5 @@
 from .models import Task
-from django.forms import ModelForm, TextInput, Textarea, DateTimeInput, CheckboxInput, DateTimeField
+from django.forms import ModelForm, TextInput, Textarea, DateTimeInput, CheckboxInput
 
 
 class TaskForm(ModelForm):

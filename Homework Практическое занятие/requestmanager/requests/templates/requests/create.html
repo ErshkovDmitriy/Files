@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница!</title>
+</head>
+<body>
+    <h1>Создание заявки!</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.name }}<br>
+        {{ form.email }}<br>
+        {{ form.message }}<br>
+        {{ form.submitted_at }}<br>
+        <button type="submit">Отправить заявку!</button>
+    </form>
+</body>
+</html>
+

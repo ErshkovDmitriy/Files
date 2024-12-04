@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список!!!!!</title>
+</head>
+<body>
+    <h1>Список:</h1><br>
+    {% for ap in applications %}
+        <div>
+            <h2>{{ ap.name }}</h2>
+            <h2>{{ ap.email }}</h2>
+            <h2>{{ ap.message }}</h2>
+            <h2>{{ ap.submitted_at }}</h2>
+        </div>
+    {% endfor %}
+</body>
+</html>
