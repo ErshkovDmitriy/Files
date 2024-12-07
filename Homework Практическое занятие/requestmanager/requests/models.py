@@ -8,4 +8,4 @@ class Request(models.Model):
     submitted_at = models.DateTimeField('Дата создания задачи', auto_created=True)
 
     def __str__(self):
-        return f'{self.name}, {self.email}, {self.message}, {self.submitted_at}'
+        return f'{self.name}, {self.email}, {self.message}'

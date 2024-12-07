@@ -11,13 +11,14 @@ def request_list(request):
 def create_request(request):
     if request.method == 'POST':
         form = RequestForm(request.POST)
+        print(form.data)
         if form.is_valid():
             form.save()
-            return redirect('request_list')
+
+        return redirect('request_list')
 
     form = RequestForm()
     date = {
         'form': form,
     }
     return render(request, 'requests/create.html', date)
-
