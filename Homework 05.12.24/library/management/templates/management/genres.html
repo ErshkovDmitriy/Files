@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h3>Список жанров книг:</h3>
+    {% for genre in genres %}
+        <div class="card">
+
+            <div class="card-body">
+                {{ genre }}
+            </div>
+            <div>
+                <a href="{% url 'books_by_genre' genre.id %}" class="card-link">Посмотреть книги данного жанра</a>
+            </div>
+
+        </div>
+    {% endfor %}
+
+{% endblock %}
