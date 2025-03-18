@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+{% include 'includes/header.html' %}
+
+<section class="main-section container">
+    <div class="row align-items-center">
+        <!-- Левый блок с текстом -->
+        <div class="col-md-6">
+            <h1 class="main-title">«МОЗГИ» - это онлайн-сервис, созданный для помощи студентам.</h1>
+            <p class="main-text">На нашем сервисе вы сможете найти консультанта по учебе без посредников.</p>
+            <div>
+                <a href="#" class="btn btn-warning btn-large">Разместить задание</a>
+                <a href="#" class="btn btn-warning btn-large">Стать экспертом</a>
+            </div>
+        </div>
+        <!-- Правый блок с изображением -->
+        <div class="col-md-6 text-center">
+                <img src="{% static 'images/brain.jpg' %}" alt="Brain Image" class="img-fluid brain-img">
+        </div>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <!-- Левый блок с изображением -->
+        <div class="col-12 col-md-6">
+            <img src="{% static 'images/list.jpg' %}" alt="List Image" class="img-fluid brain-img">
+        </div>
+
+        <!-- Правый блок со списком -->
+        <div class="col-12 col-md-6">
+            <h3 class="text-white">Как это работает?</h3>
+            <ul class="steps-list">
+                <li><span class="step-circle">1</span> Зарегистрируйтесь на нашем сервисе</li>
+                <li><span class="step-circle">2</span> Разместите заказ</li>
+                <li><span class="step-circle">3</span> Мы разошлем задание лучшим экспертам</li>
+                <li><span class="step-circle">4</span> Выберите эксперта по цене и отзывам</li>
+                <li><span class="step-circle">5</span> Сдайте работу и получите высшую оценку</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <!-- Левый блок с текстом -->
+        <div class="col-12 col-md-6">
+            <h3 class="text-white text-center text-md-start">Время – невозобновляемый ресурс!</h3>
+            <p class="text-white text-center text-md-start">
+                У нас есть все, чтобы сделать вашу жизнь более приятной и беззаботной.
+            </p>
+           <ul class="steps-list-two">
+                <li><span class="step-circle">1</span> Экономия времени.</li>
+                <li><span class="step-circle">2</span> Удобный интерфейс, созданный для удобства пользователей сайта.</li>
+                <li><span class="step-circle">3</span> Безопасная сделка, деньги хранятся на вашем балансе во время работы над заданием и гарантийного срока.</li>
+            </ul>
+        </div>
+        <!-- Правый блок с изображением -->
+        <div class="col-12 col-md-6 text-center">
+            <img src="{% static 'images/brain sleep.jpg' %}" alt="Brain Sleep" class="img-fluid brain-img">
+        </div>
+    </div>
+</div>
+
+
+{% block content %}{% endblock %}
+
+{% include 'includes/footer.html' %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+</html>

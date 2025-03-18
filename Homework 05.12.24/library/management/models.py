@@ -14,7 +14,7 @@ class Book(models.Model):
     author = models.TextField('Автор', max_length=30)
     published_year = models.IntegerField('Дата публикации')
     genre = models.ForeignKey(Genre, on_delete=models.DO_NOTHING)
-    is_available = models.BooleanField('Статус доступности книги', default=False)
+    is_available = models.BooleanField('Статус доступности книги', default=True)
 
     def __str__(self):
         return f'{self.title}, {self.author}'

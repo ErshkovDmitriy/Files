@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
 
-    {% for book in books %}
-        <div class="card">
-            <div class="card-body">
-                {{ book }}
-                {{ book.is_available }}
-            </div>
-        </div>
-    {% endfor %}
+    <form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}  <!-- Отображаем форму -->
+
+    <button type="submit">Арендовать книгу</button>
+</form>
 
 {% endblock %}
