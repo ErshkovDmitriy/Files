@@ -1,28 +1,125 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
+    <title>О компании</title>
 </head>
 <body>
 
 {% include 'includes/header.html' %}
 
+<section id="carousel-section" class="container-fluid p-0">
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'images/one_img.png' %}" class="d-block w-100" alt="two img.png">
+                <div class="carousel-caption d-none d-md-block">
+                    <p class="mb-4">Компания «Мозг» основана в 2012 году.</p>
+                    <p class="mb-4">Надежность компании и качество услуг – залог успеха на сессии для наших клиентов.</p>
+                    <p class="lead mb-4">2560 студентов по всей России ежедневно обращаются к нам за помощью.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/two_img.png' %}" class="d-block w-100" alt="one img.png">
+                <div class="carousel-caption d-none d-md-block">
+                    <p class="mb-4">Тысячи студентов защитили диссертации, магистерские, кандидатские, дипломные и курсовые работы.</p>
+                    <p class="mb-4">Написали контрольные на отлично и получили высшее образование.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/three_img.png' %}" class="d-block w-100" alt="three_img.png">
+                <div class="carousel-caption d-none d-md-block">
+                    <p class="lead mb-4">Рекомендации заказчиков и отзывы о работе наших экспертов вдохновляют нас на решение самых трудных задач.</p>
+                    <h3 class="fw-bold">Мы делаем сложное простым!</h3>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+
+
+<section class="about-section container-fluid py-5">
+    <div class="container text-center">
+        <h1 class="about-title display-4 fw-bold mb-4">Наши преимущества</h1>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card p-3">
+                    <img src="{% static 'images/lock.png' %}" class="card-logo" alt="lock">
+                    <div class="card-title">Конфиденциальность и надежность</div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Официальный договор публичной оферты</li>
+                            <li>Строгая политика конфиденциальности</li>
+                            <li>Политика гарантии возврата</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card p-3">
+                    <img src="{% static 'images/shield.png' %}" class="card-logo" alt="shield">
+                    <div class="card-title">Гарантийное обслуживание</div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Сопровождение до защиты</li>
+                            <li>Квалифицированные консультации</li>
+                            <li>Бесплатные доработки в течение 60 дней</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card p-3">
+                    <img src="{% static 'images/contract.png' %}" class="card-logo" alt="contract">
+                    <div class="card-title">Качество и своевременность</div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Соблюдение сроков выполнения заданий</li>
+                            <li>Проверка качества и оригинальности</li>
+                            <li>Отчёт о проверке на антиплагиат</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card p-3">
+                    <img src="{% static 'images/heart.png' %}" class="card-logo" alt="heart">
+                    <div class="card-title">Сервис и комфорт</div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Всегда на связи 7 дней в неделю</li>
+                            <li>Индивидуальный подход</li>
+                            <li>Специальные предложения для клиентов</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% include 'includes/footer.html' %}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
