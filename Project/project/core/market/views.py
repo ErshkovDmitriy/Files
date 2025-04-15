@@ -15,3 +15,9 @@ def partners(request):
 
 def contacts(request):
     return render(request, 'contacts.html')
+
+def register(request):
+    return render(request, 'register.html')
+
+def login(request):
+    return render(request, 'login.html')
