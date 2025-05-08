@@ -1,6 +1,6 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.translation import gettext_lazy as
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
 
 # Типы пользователей
 class UserRole(models.TextChoices):
@@ -68,4 +68,3 @@ class WorkTypeOption(models.Model):
 
     def __str__(self):
         return self.name
-
