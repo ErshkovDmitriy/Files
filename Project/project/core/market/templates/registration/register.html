@@ -1,4 +1,5 @@
 {% load static %}
+{% load form_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,12 +8,9 @@
     <title>Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
     <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
 </head>
 <body>
 
@@ -23,31 +21,35 @@
         <div class="col-lg-6 col-md-8 col-sm-10">
             <div class="card shadow-lg rounded-4 p-4 border-0">
                 <h2 class="text-center mb-4">Регистрация</h2>
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
 
-                    <!-- Имя пользователя -->
+                    <!-- Username -->
                     <div class="mb-3">
-                        <label for="username" class="form-label">Имя пользователя</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        <label for="{{ form.username.id_for_label }}" class="form-label">Имя пользователя</label>
+                        {{ form.username|add_class:"form-control" }}
+                        {{ form.username.errors }}
                     </div>
 
                     <!-- Email -->
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                        {{ form.email|add_class:"form-control" }}
+                        {{ form.email.errors }}
                     </div>
 
                     <!-- Пароль -->
                     <div class="mb-3">
-                        <label for="password1" class="form-label">Пароль</label>
-                        <input type="password" class="form-control" id="password1" name="password1" required>
+                        <label for="{{ form.password1.id_for_label }}" class="form-label">Пароль</label>
+                        {{ form.password1|add_class:"form-control" }}
+                        {{ form.password1.errors }}
                     </div>
 
                     <!-- Подтверждение пароля -->
                     <div class="mb-3">
-                        <label for="password2" class="form-label">Подтвердите пароль</label>
-                        <input type="password" class="form-control" id="password2" name="password2" required>
+                        <label for="{{ form.password2.id_for_label }}" class="form-label">Подтвердите пароль</label>
+                        {{ form.password2|add_class:"form-control" }}
+                        {{ form.password2.errors }}
                     </div>
 
                     <!-- Роль -->
@@ -55,8 +57,8 @@
                         <label class="form-label">Выберите роль:</label>
                         <div class="d-flex gap-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="role" id="client" value="client" required>
-                                <label class="form-check-label" for="client">Заказчик</label>
+                                <input class="form-check-input" type="radio" name="role" id="customer" value="customer" required>
+                                <label class="form-check-label" for="customer">Заказчик</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="role" id="expert" value="expert">
@@ -65,6 +67,7 @@
                         </div>
                     </div>
 
+
                     <!-- Кнопка -->
                     <div class="d-grid">
                         <button type="submit" class="btn btn-warning">Зарегистрироваться</button>
@@ -72,14 +75,13 @@
 
                     <!-- Ссылка на вход -->
                     <p class="text-center mt-3">
-                        Уже есть аккаунт? <a href="#">Войти</a>
+                        Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
                     </p>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 {% include 'includes/footer.html' %}
 
