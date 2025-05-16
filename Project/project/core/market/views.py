@@ -1,58 +1,60 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from django.core.mail import send_mail
-from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_user_model
-from .forms import CustomUserRegistrationForm  # форма регистрации
-from .models import CustomerProfile, ExpertProfile
-
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from .forms import CustomUserRegistrationForm
+from .models import CustomerProfile, ExpertProfile, Task
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 User = get_user_model()
 
+
+# Основные страницы
 def index(request):
     return render(request, 'base.html')
+
 
 def about_project(request):
     return render(request, 'about_project.html')
 
+
 def services(request):
     return render(request, 'services.html')
+
 
 def partners(request):
     return render(request, 'partners.html')
 
+
 def contacts(request):
     return render(request, 'contacts.html')
 
-def login(request):
-    return render(request, 'login.html')
 
+# Тестовая отправка письма
 def test_email(request):
     send_mail(
         'Тестовое письмо',
         'Это письмо отправлено через Mailtrap.',
-        'noreply@example.com',  # <-- from_email
+        settings.DEFAULT_FROM_EMAIL,
         ['your@mail.com'],
     )
     return HttpResponse("Письмо отправлено!")
 
+
+# Регистрация и активация аккаунта
 def register(request):
     if request.method == 'POST':
         form = CustomUserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
-
-            # Получаем и валидируем роль
-            role = request.POST.get('role')
-            if role not in ['customer', 'expert']:
-                form.add_error(None, "Некорректная роль.")
-                return render(request, 'registration/register.html', {'form': form})
-            user.role = role
             user.save()
 
             if user.role == 'customer':
@@ -60,21 +62,29 @@ def register(request):
             elif user.role == 'expert':
                 ExpertProfile.objects.create(user=user)
 
-            # Отправка письма для активации
-            current_site = get_current_site(request)
             subject = 'Подтверждение регистрации'
-            message = render_to_string('registration/activation_email.html', {
+            context = {
                 'user': user,
-                'domain': current_site.domain,
+                'domain': settings.DOMAIN,
+                'protocol': settings.PROTOCOL,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': default_token_generator.make_token(user),
-            })
-            send_mail(subject, message, 'noreply@yourdomain.com', [user.email])
+            }
+
+            text_message = render_to_string('registration/activation_email.txt', context)
+            html_message = render_to_string('registration/activation_email.html', context)
+
+            email = EmailMultiAlternatives(
+                subject, text_message, settings.DEFAULT_FROM_EMAIL, [user.email]
+            )
+            email.attach_alternative(html_message, "text/html")
+            email.send()
 
             return render(request, 'registration/email_sent.html')
     else:
         form = CustomUserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 def activate(request, uidb64, token):
     try:
@@ -86,6 +96,65 @@ def activate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect('login')  # Можно заменить на redirect в личный кабинет
+        return redirect('login')
     else:
         return render(request, 'registration/activation_failed.html')
+
+
+# Кабинеты и панели
+@login_required
+def customer_dashboard(request):
+    if request.user.role != 'customer':
+        return redirect('expert_dashboard')
+
+    profile = get_object_or_404(CustomerProfile, user=request.user)
+    tasks = Task.objects.filter(customer=request.user)
+
+    return render(request, 'customer_dashboard.html', {
+        'profile': profile,
+        'tasks': tasks,
+    })
+
+
+@login_required
+def expert_dashboard(request):
+    if request.user.role != 'expert':
+        return redirect('customer_dashboard')
+
+    profile = get_object_or_404(ExpertProfile, user=request.user)
+
+    return render(request, 'expert_dashboard.html', {
+        'profile': profile,
+    })
+
+
+@login_required
+def personal_account_view(request):
+    user = request.user
+
+    if user.role == 'customer':
+        return render(request, 'customer_personal_account.html', {'user': user})
+    elif user.role == 'expert':
+        return render(request, 'expert_personal_account.html', {'user': user})
+    else:
+        return redirect('login')
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')  # Или email, если у тебя логин по email
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # Редиректим в личный кабинет в зависимости от роли
+            if user.role == 'customer':
+                return redirect('customer_dashboard')
+            elif user.role == 'expert':
+                return redirect('expert_dashboard')
+            else:
+                return redirect('personal_account')
+        else:
+            messages.error(request, 'Неправильный логин или пароль')
+    return render(request, 'login.html')

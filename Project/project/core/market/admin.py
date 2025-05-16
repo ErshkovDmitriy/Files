@@ -1,12 +1,5 @@
 from django.contrib import admin
-from .models import (
-    CustomUser,
-    CustomerProfile,
-    ExpertProfile,
-    Task,
-    Subject,
-    WorkTypeOption
-)
+from .models import (CustomUser, CustomerProfile, ExpertProfile, Task, Subject, WorkType)
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
@@ -32,7 +25,7 @@ class TaskAdmin(admin.ModelAdmin):
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
-@admin.register(WorkTypeOption)
-class WorkTypeOptionAdmin(admin.ModelAdmin):
+@admin.register(WorkType)
+class WorkTypeAdmin(admin.ModelAdmin):
     list_display = ('name',)
 

@@ -9,12 +9,25 @@ class UserRole(models.TextChoices):
 
 # Кастомный пользователь
 class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
     role = models.CharField(
         max_length=10,
         choices=UserRole.choices,
         default=UserRole.CUSTOMER,
     )
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
+    @property
+    def is_customer(self):
+        return self.role == UserRole.CUSTOMER
+
+    @property
+    def is_expert(self):
+        return self.role == UserRole.EXPERT
+
 
 # Профиль заказчика
 class CustomerProfile(models.Model):
@@ -27,19 +40,24 @@ class CustomerProfile(models.Model):
     specialty = models.CharField(max_length=150)
 
 # Типы работ
-class WorkType(models.TextChoices):
-    TEST = 'Контрольная'
-    ESSAY = 'Реферат'
-    ESSAY2 = 'Эссе'
-    COURSE = 'Курсовая работа'
-    DIPLOMA = 'Диплом'
-    OTHER = 'Другое'
+class WorkType(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+# Предметы
+class Subject(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 # Задания
 class Task(models.Model):
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    work_type = models.CharField(max_length=50, choices=WorkType.choices)
-    subject = models.CharField(max_length=150)
+    work_type = models.ForeignKey(WorkType, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     deadline = models.DateField()
@@ -53,18 +71,7 @@ class ExpertProfile(models.Model):
     specialty = models.CharField(max_length=150)
     graduation_year = models.PositiveIntegerField()
     city = models.CharField(max_length=100)
-    subjects = models.ManyToManyField('Subject')
-    work_types = models.ManyToManyField('WorkTypeOption')
+    subjects = models.ManyToManyField(Subject)
+    work_types = models.ManyToManyField(WorkType)
     diploma_image = models.ImageField(upload_to='experts/diplomas/', blank=True, null=True)
     social_link = models.URLField(blank=True, null=True)
-
-# Предметы
-class Subject(models.Model):
-    name = models.CharField(max_length=100)
-
-# Варианты типов работ (многие ко многим)
-class WorkTypeOption(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name

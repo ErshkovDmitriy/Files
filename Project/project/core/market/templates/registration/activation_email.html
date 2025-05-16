@@ -1,5 +1,58 @@
-Привет, {{ user.username }}!
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение регистрации</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f7;
+            color: #333333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #4a90e2;
+        }
+        a.button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #4a90e2;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999999;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Здравствуйте, {{ user.username }}!</h2>
+    <p>Спасибо за регистрацию на нашем сайте. Пожалуйста, подтвердите свою почту, чтобы активировать аккаунт:</p>
 
-Пожалуйста, подтвердите регистрацию, перейдя по ссылке ниже:
+    <a href="{{ protocol }}://{{ domain }}/activate/{{ uid }}/{{ token }}/" class="button" target="_blank">
+        Подтвердить Email
+    </a>
 
-http://{{ domain }}/activate/{{ uid }}/{{ token }}/
+    <p>Если вы не регистрировались на нашем сайте, просто проигнорируйте это письмо.</p>
+
+    <div class="footer">
+        &copy; {{ domain }} — {{ now|date:"Y" }}
+    </div>
+</div>
+</body>
+</html>
+
