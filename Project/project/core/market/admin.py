@@ -9,7 +9,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 @admin.register(CustomerProfile)
 class CustomerProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'phone_number', 'city', 'university')
+    list_display = ('user', 'phone', 'city', 'education')  # обновлено
 
 @admin.register(ExpertProfile)
 class ExpertProfileAdmin(admin.ModelAdmin):
@@ -28,4 +28,3 @@ class SubjectAdmin(admin.ModelAdmin):
 @admin.register(WorkType)
 class WorkTypeAdmin(admin.ModelAdmin):
     list_display = ('name',)
-

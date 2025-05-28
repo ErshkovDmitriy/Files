@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'market',
+    'widget_tweaks',
 ]
 
 AUTH_USER_MODEL = 'market.CustomUser'

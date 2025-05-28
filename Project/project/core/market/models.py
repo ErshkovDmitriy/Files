@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+from django.core.exceptions import ValidationError
+from phonenumber_field.modelfields import PhoneNumberField  # добавлено
 
 # Типы пользователей
 class UserRole(models.TextChoices):
@@ -28,16 +31,15 @@ class CustomUser(AbstractUser):
     def is_expert(self):
         return self.role == UserRole.EXPERT
 
-
 # Профиль заказчика
 class CustomerProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=20)
+    phone = PhoneNumberField(region='RU', blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    city = models.CharField(max_length=100)
-    university = models.CharField(max_length=150)
-    faculty = models.CharField(max_length=150)
-    specialty = models.CharField(max_length=150)
+    city = models.CharField(max_length=100, blank=True)
+    education = models.CharField(max_length=150, blank=True)
+    faculty = models.CharField(max_length=150, blank=True)
+    specialty = models.CharField(max_length=150, blank=True)
 
 # Типы работ
 class WorkType(models.Model):
@@ -55,6 +57,13 @@ class Subject(models.Model):
 
 # Задания
 class Task(models.Model):
+    STATUS_CHOICES = [
+        ('new', 'Новая'),
+        ('in_progress', 'В работе'),
+        ('completed', 'Завершена'),
+        ('cancelled', 'Отменена'),
+    ]
+
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     work_type = models.ForeignKey(WorkType, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
@@ -63,6 +72,14 @@ class Task(models.Model):
     deadline = models.DateField()
     attached_file = models.FileField(upload_to='tasks/files/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
+
+    def clean(self):
+        if self.deadline < timezone.now().date():
+            raise ValidationError({'deadline': 'Срок выполнения не может быть в прошлом.'})
+
+    def __str__(self):
+        return f"{self.title} ({self.get_status_display()})"
 
 # Профиль исполнителя
 class ExpertProfile(models.Model):
