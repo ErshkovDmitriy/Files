@@ -11,10 +11,8 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('test-email/', views.test_email),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
-
-    # Используем единый личный кабинет
     path('dashboard/', views.personal_account_view, name='personal_account'),
 
-    # Если пока нужен expert_dashboard отдельно — оставим
+    # Если пока нужен expert_dashboard отдельно — оставлю
     path('dashboard/expert/', views.expert_dashboard, name='expert_dashboard'),
 ]

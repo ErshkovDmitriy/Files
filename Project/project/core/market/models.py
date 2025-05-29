@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from phonenumber_field.modelfields import PhoneNumberField  # добавлено
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Типы пользователей
 class UserRole(models.TextChoices):

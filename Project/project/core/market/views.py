@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from django.db import transaction
 
 from .forms import CustomUserRegistrationForm, CustomerProfileForm, UserForm
 from .models import CustomerProfile, ExpertProfile, Task
@@ -132,7 +131,6 @@ def personal_account_view(request):
     else:
         return redirect('login')
 
-# Удалён старый customer_dashboard
 
 @login_required
 def expert_dashboard(request):
